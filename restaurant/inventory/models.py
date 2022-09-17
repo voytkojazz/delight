@@ -1,6 +1,7 @@
-from statistics import quantiles
-from tkinter import Menu
 from django.db import models
+from django.urls import reverse
+from django.utils.text import slugify
+
 
 # Create your models here.
 class Ingridient(models.Model):
@@ -23,24 +24,30 @@ class Ingridient(models.Model):
         (TEASPOON, 'tea spoon'),
     ]
     name = models.CharField(max_length=100)
-    quantity = models.DecimalField(max_digits=8, decimal_places=4)
+    quantity = models.FloatField()
     unit = models.CharField(max_length=2, choices=UNIT_CHOICES)
-    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
+    unit_price = models.FloatField()
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('ingridient-detail', kwargs={'pk': self.pk})    
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
 class MenuItem(models.Model):
     title = models.CharField(max_length=100)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.FloatField()
     def __str__(self) -> str:
         return self.title
 
 class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingridient = models.ForeignKey(Ingridient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=8, decimal_places=4)
+    quantity = models.FloatField()
     def __str__(self) -> str:
         return f'{self.ingridient}_{self.quantity}'
 
@@ -48,4 +55,6 @@ class RecipeRequirement(models.Model):
 class Purchase(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
+    
+
 
