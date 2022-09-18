@@ -27,8 +27,8 @@
                     }).done(function () {
                         request = false;
                         for (var i = 0; i < id.length; i++) {
-                            $('li#' + id[i]).css('background-color', '#ccc');
-                            $('li#' + id[i]).fadeOut('slow');
+                            $('.disapearing' + id[i]).css('background-color', '#ccc');
+                            $('.disapearing' + id[i]).fadeOut('slow');
                         }
                     });
                 };

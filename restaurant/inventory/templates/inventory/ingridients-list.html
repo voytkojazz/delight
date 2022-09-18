@@ -10,8 +10,12 @@
 
 
 
-        <input type="checkbox" class="btn-check mx-3" id="select-all" autocomplete="off">
+        <input type="checkbox" class="btn-check mx-3" id="select-all">
         <label class="btn btn-outline-secondary" for="select-all">Select All</label><br>
+
+        <a href="{% url 'ingridient-create' %}" class="btn btn-outline-dark mx-3" role="button">Add New</a>
+
+        {% include 'inventory/ingridient-filter.html' %}
     </div>
 
 
@@ -29,12 +33,12 @@
             </thead>
             <tbody>
                 {% for ingridient in all_ingridients %}
-                <tr>
+                <tr class="disapearing{{ingridient.id}}">
                     <td>
 
                         <div>
-                            <input class="checkbox-to-delete form-check-input" type="checkbox" id="checkboxNoLabel"
-                                value="" aria-label="..." value="{{ ingridient.id }}">
+                            <input class="checkbox-to-delete" type="checkbox" id="checkboxNoLabel" aria-label="..." value="{{ ingridient.id }}">
+                            <a role="button" class="btn btn-outline-primary ms-3" href="{% url 'ingridient-update' ingridient.id %}">Edit</a>
                         </div>
 
                     </td>
@@ -51,4 +55,3 @@
 
 
 {% endblock content %}
-{% include 'inventory/footer.html' %}

@@ -44,12 +44,18 @@ class MenuItem(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def avalaible(self):
+        return all(X.enough() for X in self.recipe_requirement_set.all())
+
 class RecipeRequirement(models.Model):
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     ingridient = models.ForeignKey(Ingridient, on_delete=models.CASCADE)
     quantity = models.FloatField()
     def __str__(self) -> str:
         return f'{self.ingridient}_{self.quantity}'
+
+    def enough(self):
+        return self.quantity <= self.ingridient.quantity
 
 
 class Purchase(models.Model):

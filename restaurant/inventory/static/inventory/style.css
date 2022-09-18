@@ -44,7 +44,9 @@ a.nav-link {
 /* CONTAINERs */
 
 .container-xl {
+    font-family: 'Comfortaa', cursive;
     background: rgba(255, 255, 255, 0.75);
+    width: 80%;
     max-width: 1600px;
     padding: 0;
 }
@@ -55,6 +57,8 @@ a.nav-link {
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
     position: sticky;
+    font-family: 'Comfortaa', cursive;
+    font-weight: light;
 }
 
 /* TABLE */
@@ -87,4 +91,93 @@ a.nav-link {
 input.checkbox-to-delete {
     width: 1.4em;
     height: 1.4em;
+}
+
+
+/* SEARCH FORM */
+.buttons-container form{
+    margin: 0.75rem 0;
+}
+
+
+.field-wrapper input[type=text] {
+    max-width: 7rem;
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #bdbdbd;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+.field-wrapper__label {
+    /* display: block; */
+    margin-bottom: 0.25rem;
+}
+
+.field-wrapper {
+    font-size: 0.75em;
+    padding-left: 2em;
+}
+
+.form-wrapper .btn {
+    background-color: #ffd966;
+    color: black;
+    border-color: transparent;
+}
+
+.form-wrapper .btn:hover {
+    background-color: #fff704;
+    color: rgb(11, 26, 236);
+    font-weight: bold;
+
+}
+
+.purchase {
+    max-width: 9em;
+}
+
+/* PROFIT_REVENUE */
+
+.profit-revenue-report {
+    margin: 1.7em 3em 0 3em;
+}
+
+.profit-revenue-report p {
+    margin-bottom: 0;
+}
+
+.profit-revenue-report span {
+    text-decoration: underline;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
+.break {
+    border-bottom: dotted #212529;
+    width: 7em;
+    margin: 0 0.5em;
+}
+
+.profit {
+margin-bottom: 2em;
+}
+
+.form-container {
+    font-family: 'Comfortaa', cursive;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.7);
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10em;
+    border-radius: 25px;
+    padding: 3em;
 }
