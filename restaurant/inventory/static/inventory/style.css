@@ -48,7 +48,8 @@ a.nav-link {
     background: rgba(255, 255, 255, 0.75);
     width: 80%;
     max-width: 1600px;
-    padding: 0;
+    padding-top: 0.2em;
+    padding-bottom: 5em;
 }
 
 .buttons-container {

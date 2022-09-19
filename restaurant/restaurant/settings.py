@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'inventory',
+    'accounts',
     'django_filters',
     'django.contrib.humanize',
     'django.contrib.admin',

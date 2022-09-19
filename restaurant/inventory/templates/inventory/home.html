@@ -1,1 +1,33 @@
 {% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="container-xl">
+
+  <div class="shadow p-3 mx-4 bg-body rounded">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Hola! </strong>{{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+    <h2 class='mt-4'>Welcome to Restaurant Managing System 1.0 Beta!</h2>
+
+    {% if user.is_authenticated %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+      <a role="button" class="btn btn-lg btn-outline-secondary mt-4 mb-5" href="{% url 'logout-page' %}">Log out</a>
+    </div>
+    {% else %}
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
+      <a href="{% url 'login-page' %}" class="btn btn-lg btn-outline-secondary me-md-2" type="button">Log In</a>
+      <a href="{% url 'register-page' %}" class="btn btn-lg btn-outline-secondary" type="button">Register</a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock content %}
