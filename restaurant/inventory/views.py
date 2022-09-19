@@ -1,22 +1,36 @@
-from multiprocessing import context
-from tkinter import Menu
+ 
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, View, TemplateView, CreateView, DeleteView
 from django.views.generic import YearArchiveView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import count_profit_revenue
 from .models import Ingridient, MenuItem, Purchase, RecipeRequirement
 from .filters import PurchaseFilter, IngridientFilter
 from .forms import IngridientForm, RecipeRequirementForm, MenuItemCreateForm, RecipeRequirementFormSet
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.forms import formset_factory, inlineformset_factory
+from accounts.decorators import not_unautheticated_user
+from django.contrib import messages
 # Create your views here.
+class CustomLoginRequiredMixin(LoginRequiredMixin):
 
+    permission_denied_message = 'You have to be logged in to access that page'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.add_message(request, messages.WARNING,
+                             self.permission_denied_message)
+            return self.handle_no_permission()
+        return super(CustomLoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs
+        )
 
 
 
 
 class IngridientView(View):
+
     def get(self, request):
         all_ingridients = Ingridient.objects.all()
         f = IngridientFilter(request.GET, queryset=all_ingridients)
@@ -46,7 +60,9 @@ class MenuItemListView(ListView):
 
 
 
-class PurchaseListView(TemplateView):
+class PurchaseListView(CustomLoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login-page')
+    permission_denied_message = 'In order to view this page, please log in...'
     def get(self, request):
         purchases_list = Purchase.objects.all()
         f = PurchaseFilter(request.GET, queryset=purchases_list)
@@ -92,7 +108,8 @@ class PurchaseListView(TemplateView):
                 ingridient = Purchase.objects.get(pk=id)
                 ingridient.delete()
             return redirect('purchase-list')
-        
+
+
         
 
 
@@ -126,7 +143,9 @@ class PurchaseYearArchiveView(YearArchiveView):
 
 
 
-class IngridientCreateView(CreateView):
+class IngridientCreateView(CustomLoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login-page')
+
     model = Ingridient
     form_class = IngridientForm
     success_url = reverse_lazy('ingridients-list')
@@ -136,14 +155,16 @@ class IngridientCreateView(CreateView):
 
 
 
-class MenuItemCreateView(CreateView):
+class MenuItemCreateView(CustomLoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('login-page')
+
     model = MenuItem
     form_class = MenuItemCreateForm
     success_url = reverse_lazy('menu-items-list')
     template_name = 'inventory/menu-item-create.html'
     
 
-
+# @not_unautheticated_user
 def manage_requirements(request, menu_item_pk):
     menu_item = MenuItem.objects.get(pk=menu_item_pk)
     formset_class = RecipeRequirementFormSet
@@ -158,11 +179,13 @@ def manage_requirements(request, menu_item_pk):
             'formset': formset,
             'menu_item_pk': menu_item_pk,
         }
-    return render(request, 'inventory/menu-item-requirements.html', context)
+        return render(request, 'inventory/menu-item-requirements.html', context)
 
 
 
-class PurchaseCreateView(TemplateView):
+class PurchaseCreateView(CustomLoginRequiredMixin, TemplateView):
+    login_url = reverse_lazy('login-page')
+
     template_name = 'inventory/purchase-create.html'
 
     def get_context_data(self, **kwargs):
@@ -185,7 +208,7 @@ class PurchaseCreateView(TemplateView):
         return redirect('purchase-list')
 
 
-
+@not_unautheticated_user
 def ingridient_update_view(request, ingridient_pk):
     ingridient = Ingridient.objects.get(pk=ingridient_pk)
     form = IngridientForm(instance=ingridient)

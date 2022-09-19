@@ -12,18 +12,18 @@
                 {% if messages %}
                 {% for message in messages %}
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>Holy .h.t!</strong>{{ message }}
+                    <strong>Hola! </strong>{{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
                 {% endfor %}
                 {% endif %}
-                <h2>Welcome! Be so nice to login here</h2>
+                <h2>Welcome! Please, login!</h2>
                 <form method="post">
 
 
                     {% csrf_token %}
-                    <div class="mb-3">
+                    <div class="mb-3 mt-3">
                         <label for="exampleInputEmail1" class="form-label">Username</label>
                         <input name="username" type="text" class="form-control" aria-describedby="emailHelp">
                         <div id="emailHelp" class="form-text">Enter your username</div>
@@ -32,8 +32,10 @@
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                         <input name="password" type="password" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-dark">Submit</button>
+                    <button type="submit" class="btn btn-dark mt-3">Submit</button>
+                    <a role="button" class="btn btn-outline-dark mt-3" href="{% url 'register-page' %}">Register</a>
                 </form>
+
             </div>
         </div>
 

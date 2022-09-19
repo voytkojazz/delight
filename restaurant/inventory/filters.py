@@ -1,6 +1,6 @@
 from typing import Text
 import django_filters
-from django_filters import DateFilter, ModelChoiceFilter
+from django_filters import DateFilter, ModelChoiceFilter, ChoiceFilter
 from .models import Ingridient, Purchase, MenuItem
 from django.forms.widgets import TextInput
 from django.forms.widgets import Select
@@ -16,7 +16,7 @@ class PurchaseFilter(django_filters.FilterSet):
 
 class IngridientFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='name',lookup_expr='icontains', widget=TextInput(attrs={'placeholder': 'Search by name'}))
-    unit = ModelChoiceFilter(queryset=MenuItem.objects.all(), widget=Select(attrs={'class': 'form-select'}), empty_label='search by unit')
+    unit = django_filters.ChoiceFilter(choices=Ingridient.UNIT_CHOICES, widget=Select(attrs={'class': 'form-select'}), empty_label='search by unit')
 
     class Meta:
         model = Ingridient
